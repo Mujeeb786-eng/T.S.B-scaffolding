@@ -95,6 +95,60 @@
   .rating-summary { display: flex; align-items: center; gap: 14px; background: #f7fdfc; border-radius: 8px; padding: 14px; margin-bottom: 6px; }
   .rating-big { font-size: 32px; font-weight: 800; color: #0f2d2c; }
   .rating-sub { font-size: 11px; color: #777; }
+
+  /* ===== DESKTOP / LAPTOP LAYOUT ===== */
+  @media (min-width: 768px) {
+    body { max-width: none; margin: 0; background: #dfe9e8; padding: 28px 20px; }
+
+    .header, .company-card, .tab-content .section, .contact-section, .footer {
+      max-width: 1080px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .header { padding: 22px 40px; border-radius: 14px 14px 0 0; }
+    .header-brand { font-size: 26px; }
+    .header-tagline { font-size: 12px; }
+
+    .company-card { padding: 22px 40px 0; box-shadow: 0 2px 14px rgba(0,0,0,0.05); }
+    .company-top { align-items: center; }
+    .company-logo { width: 76px; height: 76px; font-size: 28px; }
+    .company-name { font-size: 22px; }
+    .cta-row { max-width: 460px; }
+    .nav-tabs { padding: 0 4px; }
+    .nav-tab { padding: 12px 22px; font-size: 13px; }
+
+    .tab-content .section {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px 28px;
+      padding: 26px 40px;
+      margin-top: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.05);
+    }
+    .section-title, .section-sub, .about-box, .info-grid, .rating-summary, .review-card {
+      grid-column: 1 / -1;
+    }
+    .info-grid { grid-template-columns: repeat(4, 1fr); }
+
+    .product-item {
+      border-bottom: none;
+      border: 1px solid #eef2f2;
+      border-radius: 8px;
+      padding: 14px;
+      align-items: flex-start;
+    }
+    .product-item:last-child { padding: 14px; }
+    .product-img { width: 100px; height: 90px; }
+
+    .contact-section { padding: 26px 40px; margin-top: 10px; border-radius: 10px; box-shadow: 0 2px 14px rgba(0,0,0,0.05); }
+    .footer { padding: 24px 40px; margin-top: 10px; border-radius: 0 0 14px 14px; }
+  }
+
+  @media (min-width: 1180px) {
+    .header, .company-card, .tab-content .section, .contact-section, .footer { max-width: 1140px; }
+  }
 </style>
 </head>
 <body>
