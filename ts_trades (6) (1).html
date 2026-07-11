@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TS Trades – Scaffolding Jack Pipes | Nandigama</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f0f4f4; min-height: 100vh; max-width: 480px; margin: 0 auto; }
+
+  .header { background: #1d8480; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; }
+  .header-brand { color: #fff; font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+  .header-tagline { color: #a8d8d6; font-size: 11px; margin-top: 2px; }
+  .header-icons { display: flex; gap: 16px; align-items: center; }
+  .header-icons a { color: #fff; text-decoration: none; font-size: 20px; }
+
+  .company-card { background: #fff; padding: 16px 14px 0; }
+  .company-top { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+  .company-logo { width: 64px; height: 64px; border-radius: 8px; background: #1d8480; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; font-weight: 800; flex-shrink: 0; }
+  .company-name { font-size: 18px; font-weight: 800; color: #0f2d2c; line-height: 1.2; }
+  .company-sub { font-size: 12px; color: #1d8480; font-weight: 600; margin-top: 3px; }
+  .company-meta { font-size: 12px; color: #777; margin-top: 5px; }
+  .trust-row { display: flex; gap: 6px; margin-top: 7px; flex-wrap: wrap; }
+  .badge { font-size: 10px; padding: 3px 8px; border-radius: 20px; font-weight: 700; }
+  .badge-green { background: #e6f4ea; color: #1a6b2a; border: 1px solid #b7dfc0; }
+  .badge-gold { background: #fff8e1; color: #7a5500; border: 1px solid #ffd54f; }
+  .badge-teal { background: #e0f4f3; color: #0f5250; border: 1px solid #9dd4d2; }
+  .stars { color: #f0a500; font-size: 13px; margin-top: 5px; }
+  .stars span { color: #888; font-size: 11px; margin-left: 4px; }
+
+  .cta-row { display: flex; gap: 8px; margin: 12px 0; }
+  .btn { flex: 1; padding: 10px 6px; border-radius: 5px; font-size: 13px; font-weight: 700; text-align: center; border: none; cursor: pointer; text-decoration: none; display: block; }
+  .btn-primary { background: #1d8480; color: #fff; }
+  .btn-wa { background: #25d366; color: #fff; }
+  .btn-call { background: #fff; color: #1d8480; border: 1.5px solid #1d8480; }
+
+  .nav-tabs { display: flex; overflow-x: auto; border-top: 1px solid #eee; }
+  .nav-tab { padding: 10px 16px; font-size: 12px; color: #666; white-space: nowrap; cursor: pointer; flex-shrink: 0; font-weight: 600; }
+  .nav-tab.active { color: #1d8480; border-bottom: 2px solid #1d8480; font-weight: 700; }
+
+  .section { background: #fff; margin-top: 8px; padding: 14px; }
+  .section-title { font-size: 15px; font-weight: 700; color: #0f2d2c; margin-bottom: 3px; }
+  .section-sub { font-size: 11px; color: #1d8480; margin-bottom: 14px; font-weight: 600; }
+
+  .product-item { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid #f0f0f0; align-items: flex-start; }
+  .product-item:last-child { border-bottom: none; padding-bottom: 4px; }
+  .product-img { width: 90px; height: 80px; border-radius: 6px; object-fit: cover; flex-shrink: 0; border: 1px solid #cde8e7; background: #e0f4f3; display: flex; align-items: center; justify-content: center; font-size: 36px; overflow: hidden; }
+  .product-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+  .product-info { flex: 1; }
+  .product-name { font-size: 13px; font-weight: 700; color: #0f3d5a; margin-bottom: 3px; }
+  .new-tag { background: #e6f4ea; color: #1a6b2a; font-size: 9px; padding: 1px 6px; border-radius: 10px; font-weight: 700; border: 1px solid #b7dfc0; margin-left: 5px; vertical-align: middle; }
+  .product-price { font-size: 12px; color: #e07800; font-weight: 700; margin-bottom: 6px; }
+  .product-specs { font-size: 11px; color: #555; line-height: 1.9; }
+  .product-specs b { color: #333; }
+  .product-call { font-size: 12px; color: #1d8480; font-weight: 700; margin-top: 7px; }
+
+  .about-box { background: #f7fdfc; border-left: 3px solid #1d8480; padding: 12px 14px; border-radius: 0 6px 6px 0; font-size: 13px; color: #444; line-height: 1.8; margin-top: 10px; }
+  .about-box b { color: #0f2d2c; }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .info-card { background: #f0f9f8; border-radius: 6px; padding: 10px 12px; border: 1px solid #c5e8e6; }
+  .info-label { font-size: 10px; color: #1d8480; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .info-value { font-size: 13px; color: #0f2d2c; font-weight: 700; margin-top: 3px; }
+
+  .contact-section { background: #fff; margin-top: 8px; padding: 14px; }
+  .contact-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; color: #333; }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-icon { width: 36px; height: 36px; border-radius: 50%; background: #e0f4f3; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .contact-label { font-size: 10px; color: #888; margin-bottom: 1px; }
+  .contact-value { font-weight: 700; color: #0f2d2c; }
+
+  .footer { background: #0f2d2c; padding: 18px 14px; margin-top: 8px; }
+  .footer-name { color: #fff; font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+  .footer-detail { color: #9dd4d2; font-size: 12px; line-height: 2; }
+  .footer-copy { color: #5a9e9b; font-size: 11px; margin-top: 12px; border-top: 1px solid #1d5250; padding-top: 10px; }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .product-img { cursor: pointer; }
+  .product-img img { cursor: pointer; }
+
+  .lightbox-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
+  .lightbox-overlay.active { display: flex; }
+  .lightbox-overlay img { max-width: 100%; max-height: 80vh; border-radius: 8px; box-shadow: 0 4px 24px rgba(0,0,0,0.4); }
+  .lightbox-caption { color: #fff; text-align: center; font-size: 14px; font-weight: 700; margin-top: 12px; }
+  .lightbox-close { position: absolute; top: 18px; right: 18px; color: #fff; font-size: 30px; line-height: 1; cursor: pointer; font-weight: 700; }
+
+  .review-card { padding: 14px 0; border-bottom: 1px solid #f0f0f0; }
+  .review-card:last-child { border-bottom: none; }
+  .review-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .review-name { font-size: 13px; font-weight: 700; color: #0f2d2c; }
+  .review-date { font-size: 10px; color: #999; }
+  .review-stars { color: #f0a500; font-size: 12px; margin-bottom: 5px; }
+  .review-text { font-size: 12px; color: #555; line-height: 1.6; }
+  .rating-summary { display: flex; align-items: center; gap: 14px; background: #f7fdfc; border-radius: 8px; padding: 14px; margin-bottom: 6px; }
+  .rating-big { font-size: 32px; font-weight: 800; color: #0f2d2c; }
+  .rating-sub { font-size: 11px; color: #777; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="header-brand">TS Trades</div>
+    <div class="header-tagline">Scaffolding &amp; Construction Equipment</div>
+  </div>
+  <div class="header-icons">
+    <a href="tel:+919989739125">📞</a>
+    <a href="https://wa.me/919989739125">💬</a>
+  </div>
+</div>
+
+<!-- COMPANY CARD -->
+<div class="company-card">
+  <div class="company-top">
+    <div class="company-logo">TS</div>
+    <div style="flex:1;">
+      <div class="company-name">TS Trades</div>
+      <div class="company-sub">Wholesaler &amp; Supplier — Scaffolding Equipment</div>
+      <div class="company-meta">📍 Nandigama, 521185 &nbsp;·&nbsp; Est. 2013</div>
+      <div class="trust-row">
+        <span class="badge badge-green">GST Verified</span>
+        <span class="badge badge-teal">First Hand Stock</span>
+        <span class="badge badge-gold">Payment Protected</span>
+      </div>
+      <div class="stars">★★★★★ <span>4.5 (18 reviews)</span></div>
+    </div>
+  </div>
+  <div class="cta-row">
+    <a href="tel:+919989739125" class="btn btn-call">📞 Call Now</a>
+    <a href="https://wa.me/919989739125" class="btn btn-wa">💬 WhatsApp</a>
+    <a href="mailto:tstrades@example.com" class="btn btn-primary">✉ Contact</a>
+  </div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" data-tab="products" onclick="showTab('products')">Products</div>
+    <div class="nav-tab" data-tab="about" onclick="showTab('about')">About</div>
+    <div class="nav-tab" data-tab="contact" onclick="showTab('contact')">Contact</div>
+    <div class="nav-tab" data-tab="reviews" onclick="showTab('reviews')">Reviews</div>
+  </div>
+</div>
+
+<!-- PRODUCTS TAB -->
+<div class="tab-content active" data-tab="products" id="tab-products">
+
+<!-- PRODUCTS -->
+<div class="section">
+  <div class="section-title">Scaffolding Jack Pipes <span style="font-size:11px;color:#888;font-weight:400;">(3 products)</span></div>
+  <div class="section-sub">✅ All stock is First Hand · Brand New · Direct Supply</div>
+
+  <!-- Product 1 -->
+  <div class="product-item">
+    <div class="product-img">
+      <!-- Replace src below with your real image URL -->
+      <img src="https://5.imimg.com/data5/SELLER/Default/2023/2/QJ/XW/FS/12463260/usedadjustable-prop-125x125.jpeg" alt="Adjustable Prop Jack" onerror="this.style.display='none';this.parentElement.innerHTML='🔩';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Adjustable Prop Jack <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Type:</b> Adjustable Prop Jack<br>
+        <b>Material:</b> Mild Steel<br>
+        <b>Length:</b> 900 mm<br>
+        <b>Finish:</b> Painted<br>
+        <b>Condition:</b> First Hand / Brand New
+      </div>
+      <div class="product-call">📞 +91 99897 39125</div>
+    </div>
+  </div>
+
+  <!-- Product 2 -->
+  <div class="product-item">
+    <div class="product-img">
+      <img src="https://5.imimg.com/data5/SELLER/Default/2026/1/577624356/JL/TO/RE/12463260/2m-adjustable-scaffolding-prop-jack-125x125.jpeg" alt="Scaffolding Prop Jack Pipe" onerror="this.style.display='none';this.parentElement.innerHTML='🏗️';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Scaffolding Prop Jack Pipe <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Type:</b> Adjustable Prop Jack<br>
+        <b>Material:</b> Mild Steel<br>
+        <b>Length:</b> 2 m<br>
+        <b>Finish:</b> Painted<br>
+        <b>Condition:</b> First Hand / Brand New
+      </div>
+      <div class="product-call">📞 +91 99897 39125</div>
+    </div>
+  </div>
+
+  <!-- Product 3 -->
+  <div class="product-item">
+    <div class="product-img">
+      <img src="https://5.imimg.com/data5/SELLER/Default/2023/2/OU/BT/TH/12463260/centering-prop-125x125.jpeg" alt="Heavy Duty Scaffolding Jack Pipe" onerror="this.style.display='none';this.parentElement.innerHTML='⚙️';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Heavy Duty Scaffolding Jack Pipe <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Type:</b> Adjustable Prop Jack<br>
+        <b>Material:</b> Mild Steel<br>
+        <b>Length:</b> 2 m<br>
+        <b>Finish:</b> Painted<br>
+        <b>Condition:</b> First Hand / Brand New
+      </div>
+      <div class="product-call">📞 +91 99897 39125</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CUPLOCK SYSTEM -->
+<div class="section">
+  <div class="section-title">Cuplock Scaffolding System <span style="font-size:11px;color:#888;font-weight:400;">(2 products)</span></div>
+  <div class="section-sub">✅ All stock is First Hand · Brand New · Direct Supply</div>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="https://5.imimg.com/data5/PV/VO/MY-2306595/cuplock-vertical-standard-500x500.jpg" alt="Cuplock Vertical Standard" onerror="this.style.display='none';this.parentElement.innerHTML='🔧';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Cuplock Vertical (Standard) <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Outer Dia:</b> 48.3 mm<br>
+        <b>Thickness:</b> 2.5 – 3.2 mm<br>
+        <b>Length:</b> 1000 / 1500 / 2000 / 2500 / 3000 mm<br>
+        <b>Material:</b> Mild Steel<br>
+        <b>Finish:</b> Painted / Galvanized<br>
+        <b>Condition:</b> First Hand / Brand New
+      </div>
+      <div class="product-call">📞 +91 99897 39125</div>
+    </div>
+  </div>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="https://5.imimg.com/data5/SELLER/Default/2023/10/354248875/IP/AW/IH/3723875/cuplock-horizontal-ledger-250x250.jpg" alt="Cuplock Horizontal Ledger" onerror="this.style.display='none';this.parentElement.innerHTML='📏';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Cuplock Horizontal (Ledger) <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Outer Dia:</b> 48.3 mm<br>
+        <b>Thickness:</b> 2.5 – 3.2 mm<br>
+        <b>Length:</b> 600 / 900 / 1200 / 1500 / 1800 / 2100 / 2500 mm<br>
+        <b>Material:</b> Mild Steel<br>
+        <b>Finish:</b> Painted / Galvanized<br>
+        <b>Condition:</b> First Hand / Brand New
+      </div>
+      <div class="product-call">📞 +91 99897 39125</div>
+    </div>
+  </div>
+</div>
+
+<!-- JACKS & PROPS -->
+<div class="section">
+  <div class="section-title">Jacks &amp; Props <span style="font-size:11px;color:#888;font-weight:400;">(3 products)</span></div>
+  <div class="section-sub">✅ All stock is First Hand · Brand New · Direct Supply</div>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="https://5.imimg.com/data5/SELLER/Default/2020/9/XL/FF/SC/20903363/scaffolding-u-jack-250x250.jpg" alt="U-Head Jack" onerror="this.style.display='none';this.parentElement.innerHTML='🔩';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">U-Jack (U-Head Jack) <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Base/Top Plate:</b> 150 x 150 mm<br>
+        <b>Screw Rod Dia:</b> 38 mm<br>
+        <b>Thread Length:</b> 400 / 500 / 600 mm<br>
+        <b>Pipe Dia:</b> 48 mm<br>
+        <b>Material:</b> Mild Steel<br>
+        <b>Condition:</b> First Hand / Brand New
+      </div>
+      <div class="product-call">📞 +91 99897 39125</div>
+    </div>
+  </div>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="https://5.imimg.com/data5/AI/GE/JW/SELLER-100877286/300-mm-ms-scaffolding-base-jack-500x500.jpg" alt="Base Jack" onerror="this.style.display='none';this.parentElement.innerHTML='⚙️';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Base Jack <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Base Plate:</b> 150 x 150 mm<br>
+        <b>Screw Rod Dia:</b> 38 mm<br>
+        <b>Thread Length:</b> 400 / 500 / 600 mm<br>
+        <b>Pipe Dia:</b> 48 mm<br>
+        <b>Material:</b> Mild Steel<br>
+        <b>Condition:</b> First Hand / Brand New
+      </div>
+      <div class="product-call">📞 +91 99897 39125</div>
+    </div>
+  </div>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="https://5.imimg.com/data5/SELLER/Default/2021/12/QL/TA/OH/1053679/acrospan-500x500.jpg" alt="Acrospan Adjustable Span" onerror="this.style.display='none';this.parentElement.innerHTML='🏗️';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Acrospan (Acro Support Span) <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Min Span Length:</b> 2500 mm<br>
+        <b>Max Span Length:</b> 4750 mm<br>
+        <b>Upper Section:</b> 125 x 65 mm<br>
+        <b>Lower Section:</b> 100 x 50 mm<br>
+        <b>Web Thickness:</b> 4 mm<br>
+        <b>Load Capacity:</b> 25 kN<br>
+        <b>Material:</b> Mild Steel<br>
+        <b>Condition:</b> First Hand / Brand New
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCESSORIES -->
+<div class="section">
+  <div class="section-title">Accessories <span style="font-size:11px;color:#888;font-weight:400;">(1 product)</span></div>
+  <div class="section-sub">✅ All stock is First Hand · Brand New · Direct Supply</div>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="https://5.imimg.com/data5/SELLER/Default/2024/4/412671917/BF/PR/OJ/1786331/cuplock-spigot-250x250.jpeg" alt="Cuplock Spigot Pin" onerror="this.style.display='none';this.parentElement.innerHTML='📌';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Spigot Pin <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Dia:</b> 38 mm<br>
+        <b>Length:</b> 150 / 200 mm<br>
+        <b>Type:</b> Solid Rod with Lock Pin Hole<br>
+        <b>Material:</b> Mild Steel<br>
+        <b>Condition:</b> First Hand / Brand New
+      </div>
+      <div class="product-call">📞 +91 99897 39125</div>
+    </div>
+  </div>
+</div>
+
+<!-- CENTERING & SHUTTERING MATERIAL -->
+<div class="section">
+  <div class="section-title">Centering &amp; Shuttering Material <span style="font-size:11px;color:#888;font-weight:400;">(4 products)</span></div>
+  <div class="section-sub">✅ All stock is First Hand · Brand New · Direct Supply</div>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="https://5.imimg.com/data5/SELLER/Default/2022/6/AS/MX/IM/123635686/ms-centering-sheet-500x500.jpeg" alt="MS Centering Sheet" onerror="this.style.display='none';this.parentElement.innerHTML='🗜️';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Centring Sheets <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Size:</b> 900 x 600 mm (3 x 2 ft)<br>
+        <b>Thickness:</b> 2 / 3.2 mm<br>
+        <b>Material:</b> Mild Steel Sheet<br>
+        <b>Finish:</b> Painted<br>
+        <b>Condition:</b> First Hand / Brand New
+      </div>
+      <div class="product-call">📞 +91 99897 39125</div>
+    </div>
+  </div>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="https://5.imimg.com/data5/LN/DN/MY-13591365/ms-window-grill-500x500.jpg" alt="MS Fabrication Grill Work" onerror="this.style.display='none';this.parentElement.innerHTML='🔲';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Fabrication Grill Work <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Size:</b> Custom, as per site requirement (mm)<br>
+        <b>Material:</b> MS Flat / MS Angle / MS Square Bar<br>
+        <b>Grill Spacing:</b> As per drawing (mm)<br>
+        <b>Finish:</b> Painted / Primer Coated<br>
+        <b>Condition:</b> Made to Order
+      </div>
+      <div class="product-call">📞 +91 99897 39125</div>
+    </div>
+  </div>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="https://5.imimg.com/data5/BY/RA/MY-1241988/18mm-film-faced-shuttering-plywood-500x500.jpg" alt="Film Faced Shuttering Plywood" onerror="this.style.display='none';this.parentElement.innerHTML='🪵';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Shuttering Plywood <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Size:</b> 1220 x 2440 mm (4 x 8 ft)<br>
+        <b>Thickness:</b> 12 / 15 / 18 mm<br>
+        <b>Type:</b> Film-Faced / Water Resistant<br>
+        <b>Material:</b> Hardwood Core<br>
+        <b>Condition:</b> First Hand / Brand New
+      </div>
+      <div class="product-call">📞 +91 99897 39125</div>
+    </div>
+  </div>
+
+  <div class="product-item">
+    <div class="product-img">
+      <img src="https://5.imimg.com/data5/SELLER/Default/2023/6/314931953/QE/QS/MC/12293222/silver-oak-cut-sizes-500x500.JPG" alt="Silver Wood Runners" onerror="this.style.display='none';this.parentElement.innerHTML='🌲';">
+    </div>
+    <div class="product-info">
+      <div class="product-name">Silver Wood Runners <span class="new-tag">NEW</span></div>
+      <div class="product-price">Get Latest Price</div>
+      <div class="product-specs">
+        <b>Cross-Section:</b> 76x51 / 102x51 / 102x76 mm<br>
+        <b>Length:</b> 1830 – 3660 mm (6 – 12 ft)<br>
+        <b>Material:</b> Silver Oak Wood (Timber)<br>
+        <b>Grade:</b> A, Sawn<br>
+        <b>Condition:</b> First Hand / Brand New
+      </div>
+      <div class="product-call">📞 +91 99897 39125</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- ABOUT TAB -->
+<div class="tab-content" data-tab="about" id="tab-about">
+<div class="section">
+  <div class="section-title">About TS Trades</div>
+  <div class="about-box">
+    Established in <b>2013</b>, <b>TS Trades</b> is a trusted <b>Wholesaler &amp; Supplier</b> of first-hand scaffolding equipment including <b>Prop Jack Pipes, Centering Sheets, Shuttering Plates, Adjustable Props</b> and related construction accessories. We supply brand new stock directly to clients across the region at competitive prices.
+  </div>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-label">CEO</div>
+      <div class="info-value">Thousif Pasha</div>
+    </div>
+    <div class="info-card">
+      <div class="info-label">Location</div>
+      <div class="info-value">Nandigama, 521185</div>
+    </div>
+    <div class="info-card">
+      <div class="info-label">Est. Year</div>
+      <div class="info-value">2013</div>
+    </div>
+    <div class="info-card">
+      <div class="info-label">Stock Type</div>
+      <div class="info-value">First Hand</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- CONTACT TAB -->
+<div class="tab-content" data-tab="contact" id="tab-contact">
+<div class="contact-section">
+  <div class="section-title" style="margin-bottom:10px;">Contact Us</div>
+  <div class="contact-row">
+    <div class="contact-icon">📞</div>
+    <div>
+      <div class="contact-label">Phone / WhatsApp</div>
+      <div class="contact-value">+91 99897 39125</div>
+    </div>
+  </div>
+  <div class="contact-row">
+    <div class="contact-icon">📍</div>
+    <div>
+      <div class="contact-label">Address</div>
+      <div class="contact-value">Nandigama – 521185, Andhra Pradesh</div>
+    </div>
+  </div>
+  <div class="contact-row">
+    <div class="contact-icon">👤</div>
+    <div>
+      <div class="contact-label">CEO</div>
+      <div class="contact-value">Thousif Pasha</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- REVIEWS TAB -->
+<div class="tab-content" data-tab="reviews" id="tab-reviews">
+<div class="section">
+  <div class="section-title">Customer Reviews</div>
+  <div class="section-sub">What our clients say about us</div>
+
+  <div class="rating-summary">
+    <div class="rating-big">4.5</div>
+    <div>
+      <div class="stars" style="margin-top:0;">★★★★★</div>
+      <div class="rating-sub">Based on 18 reviews</div>
+    </div>
+  </div>
+
+  <div class="review-card">
+    <div class="review-top">
+      <div class="review-name">Ramesh Kumar</div>
+      <div class="review-date">2 weeks ago</div>
+    </div>
+    <div class="review-stars">★★★★★</div>
+    <div class="review-text">Good quality cuplock and jack pipes, all first hand stock as promised. Delivery to our Nandigama site was quick.</div>
+  </div>
+
+  <div class="review-card">
+    <div class="review-top">
+      <div class="review-name">Srinivasa Rao</div>
+      <div class="review-date">1 month ago</div>
+    </div>
+    <div class="review-stars">★★★★★</div>
+    <div class="review-text">Ordered shuttering plywood and base jacks for our project. Thousif garu was very helpful with sizing advice.</div>
+  </div>
+
+  <div class="review-card">
+    <div class="review-top">
+      <div class="review-name">Praveen Reddy</div>
+      <div class="review-date">1 month ago</div>
+    </div>
+    <div class="review-stars">★★★★☆</div>
+    <div class="review-text">Reliable supplier for scaffolding materials in Andhra Pradesh. Prices are fair for the quality offered.</div>
+  </div>
+
+  <div class="review-card">
+    <div class="review-top">
+      <div class="review-name">Md. Aslam</div>
+      <div class="review-date">2 months ago</div>
+    </div>
+    <div class="review-stars">★★★★★</div>
+    <div class="review-text">Bought centring sheets and acrospans in bulk. Everything was brand new and well packed.</div>
+  </div>
+</div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+  <div style="text-align:center;">
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-name">TS Trades</div>
+  <div class="footer-detail">
+    CEO: Thousif Pasha<br>
+    Nandigama – 521185, Andhra Pradesh<br>
+    📞 +91 99897 39125<br>
+    💬 WhatsApp: +91 99897 39125
+  </div>
+  <div class="footer-copy">© 2025 TS Trades · Wholesaler &amp; Supplier of First Hand Scaffolding Equipment</div>
+</div>
+
+<script>
+  function showTab(tab) {
+    document.querySelectorAll('.tab-content').forEach(function(el){
+      el.classList.toggle('active', el.dataset.tab === tab);
+    });
+    document.querySelectorAll('.nav-tab').forEach(function(el){
+      el.classList.toggle('active', el.dataset.tab === tab);
+    });
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function openLightbox(src, caption) {
+    var lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = caption || '';
+    lb.classList.add('active');
+  }
+
+  function closeLightbox(e) {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+
+  // Attach lightbox click to every product image automatically
+  document.querySelectorAll('.product-img img').forEach(function(img){
+    img.addEventListener('click', function(e){
+      e.stopPropagation();
+      openLightbox(img.src, img.alt);
+    });
+  });
+</script>
+
+</body>
+</html>
